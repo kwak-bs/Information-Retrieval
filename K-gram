@@ -1,0 +1,65 @@
+import java.util.ArrayList;
+import java.util.Scanner;
+
+public class Kgram {
+
+	public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
+		
+		String word1 = sc.nextLine();
+		String word2 = sc.nextLine();
+		int k = sc.nextInt();
+		
+		new Kgram().Makekgram(word1, word2, k);
+	}
+	public void Makekgram(String w1, String w2, int k) { 
+		ArrayList<String> al1 = new ArrayList<>();
+		ArrayList<String> al1temp = new ArrayList<>();
+		ArrayList<String> al2 = new ArrayList<>();
+		ArrayList<String> al2temp = new ArrayList<>();
+		
+		for(int i=0; i<w1.length()-k+1; i++) {
+			al1temp.add(w1.substring(i,i+k));
+			if(!al1.contains(al1temp.get(i))) {
+				al1.add(al1temp.get(i));
+			}
+		}
+		for(int i=0; i<w2.length()-k+1; i++) {
+			al2temp.add(w2.substring(i,i+k));
+			if(!al2.contains(al2temp.get(i))){
+				al2.add(al2temp.get(i));
+			}
+		}
+		System.out.println("첫 번째 집합 : ");
+		System.out.println(al1.toString());
+		System.out.println("두 번째 집합 : ");
+		System.out.println(al2.toString());
+		Compare(al1, al2);
+	}
+	public void Compare(ArrayList al1, ArrayList al2) {
+		ArrayList<String> Temp = new ArrayList<>();
+		ArrayList<String> Combine = new ArrayList<>();
+		ArrayList<String> Overlap = new ArrayList<>();
+		
+		Temp.addAll(al1);
+		Temp.addAll(al2);
+		
+		for(int i=0; i<Temp.size(); i++) {
+			if(!Combine.contains(Temp.get(i))) {
+				Combine.add(Temp.get(i));
+			}else {
+				Overlap.add(Temp.get(i));
+			}
+		}
+		System.out.println("중복을 제외한 합집합 : ");
+		System.out.println(Combine.toString());
+		System.out.println("두 집합의 교집합 : ");
+		System.out.println(Overlap.toString());
+		double a = Overlap.size();
+		double b = Combine.size();
+		double result = a / b;
+		System.out.println("교집합 / 합집합 : ");
+		System.out.println(result);
+		
+	}
+}
