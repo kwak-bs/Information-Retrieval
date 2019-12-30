@@ -1,0 +1,145 @@
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+
+public class EditDistance {
+	public static void main(String[] args) throws IOException {
+		new EditDistance().run();
+	}
+
+	public int EditDistanceAlgorithm(char[] c1, char[] c2) { //Edit distance 알고리즘 구현 
+		int a = c1.length + 1;
+		int b = c2.length + 1;
+
+		int[][] temp = new int[a][b];
+
+		for (int i = 0; i < a; i++) {
+			temp[i][0] = i;
+			temp[0][i] = i;
+		}
+		for (int i = 1; i < a; i++) {
+			for (int j = 1; j < b; j++) {
+				if (c1[i-1] == c2[j-1]) {
+					temp[i][j] = temp[i - 1][j - 1];
+				} else {
+					temp[i][j] = GetMin(temp[i - 1][j]+1, temp[i][j - 1]+1, temp[i - 1][j - 1] + 1);
+				}
+			}
+		}
+		return temp[a - 1][b - 1];
+	}
+
+	public int GetMin(int val1, int val2, int val3) { //최소값 구하기
+		int Min = val1;
+		if (Min > val2)
+			Min = val2;
+		if (Min > val3)
+			Min = val3;
+
+		return Min;
+	}
+
+	public void run() throws IOException { //동작 
+		String split[] = null;
+		int min = Integer.MAX_VALUE, tmp, l = -1;
+		ArrayList<String> length3 = new ArrayList<>();
+		ArrayList<String> length4 = new ArrayList<>();
+		ArrayList<String> length5 = new ArrayList<>();
+		ArrayList<String> length6 = new ArrayList<>();
+		ArrayList<String> length7 = new ArrayList<>();
+
+		try {
+			BufferedReader bf = new BufferedReader(new FileReader("C:\\Users\\iam_b\\Desktop\\words.txt"));
+			String words;
+			while ((words = bf.readLine()) != null) {
+				split = words.split(",");
+			}
+		} catch (FileNotFoundException e) {
+		}
+
+		for (int i = 0; i < split.length; i++) {
+			if (split[i].toCharArray().length == 3) {
+				length3.add(split[i]);
+			}
+			if (split[i].toCharArray().length == 4) {
+				length4.add(split[i]);
+			}
+			if (split[i].toCharArray().length == 5) {
+				length5.add(split[i]);
+			}
+			if (split[i].toCharArray().length == 6) {
+				length6.add(split[i]);
+			}
+			if (split[i].toCharArray().length == 7) {
+				length7.add(split[i]);
+			}
+		}
+
+		System.out.print("단어를 입력하세요 : ");
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		char[] input = br.readLine().toCharArray();
+
+		if (3 <= input.length && input.length <= 7) {
+			if (input.length == 3) {
+				for (int i = 0; i < length3.size(); i++) {
+					tmp = EditDistanceAlgorithm(input, length3.get(i).toCharArray());
+					if (tmp < min) {
+						min = tmp;
+						l = i;
+					}
+				}
+				System.out.println(min);
+				System.out.println(length3.get(l));
+			}
+			if (input.length == 4) {
+				for (int i = 0; i < length4.size(); i++) {
+					tmp = EditDistanceAlgorithm(input, length4.get(i).toCharArray());
+					if (tmp < min) {
+						min = tmp;
+						l = i;
+					}
+				}
+				System.out.println(min);
+				System.out.println(length4.get(l));
+			}
+			if (input.length == 5) {
+				for (int i = 0; i < length5.size(); i++) {
+					tmp = EditDistanceAlgorithm(input, length5.get(i).toCharArray());
+					if (tmp < min) {
+						min = tmp;
+						l = i;
+					}
+				}
+				System.out.println(min);
+				System.out.println(length5.get(l));
+			}
+			if (input.length == 6) {
+				for (int i = 0; i < length6.size(); i++) {
+					tmp = EditDistanceAlgorithm(input, length6.get(i).toCharArray());
+					if (tmp < min) {
+						min = tmp;
+						l = i;
+					}
+				}
+				System.out.println(min);
+				System.out.println(length6.get(l));
+			}
+			if (input.length == 7) {
+				for (int i = 0; i < length7.size(); i++) {
+					tmp = EditDistanceAlgorithm(input, length7.get(i).toCharArray());
+					if (tmp < min) {
+						min = tmp;
+						l = i;
+					}
+				}
+				System.out.println(min);
+				System.out.println(length7.get(l));
+			}			
+		} else {
+			System.out.println("길이에 맞는 단어가 존재하지 않습니다.");
+		}
+	}
+}
